@@ -1,0 +1,39 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#board {
+    width: 450px;
+    margin: 50px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.case {
+    width: 150px;
+    height: 150px;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 80px;
+    line-height: 150px;
+    color: rgb(168, 157, 135);
+}
+
+#pos4 {
+    border: 1px solid rosybrown;
+}
+
+#pos1, #pos7 {
+    border-left: 1px solid rosybrown;
+    border-right: 1px solid rosybrown;
+}
+
+#pos3, #pos5 {
+    border-top: 1px solid rosybrown;
+    border-bottom: 1px solid rosybrown;
+}
