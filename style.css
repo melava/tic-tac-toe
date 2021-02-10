@@ -11,6 +11,7 @@ h1 {
     margin: 50px auto;
     display: flex;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .case {
@@ -21,7 +22,7 @@ h1 {
     font-family: 'Courier New', Courier, monospace;
     font-size: 80px;
     line-height: 150px;
-    color: rgb(168, 157, 135);
+    color: rgb(131, 122, 105);
 }
 
 #pos4 {
@@ -36,4 +37,30 @@ h1 {
 #pos3, #pos5 {
     border-top: 1px solid rosybrown;
     border-bottom: 1px solid rosybrown;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 450px;
+    height: 450px;
+    background-color: rosybrown;
+    border-radius: 25px;
+    box-sizing: border-box;
+    padding: 100px 15px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.overlay .button {
+    border: 1px solid rgb(131, 122, 105);
+    background-color: rgb(214, 178, 178);
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 150px 0 0 0;
+}
+
+.overlay .button:hover {
+    background-color: rgb(165, 133, 133);
 }

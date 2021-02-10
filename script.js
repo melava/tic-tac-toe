@@ -3,6 +3,7 @@ const board = (() => {
 
     function initiate () {
         _createNew()
+        _startPopUp()
     }
     
     function reset() {
@@ -18,11 +19,40 @@ const board = (() => {
     }
 
     function endPopUp(message) {
-        //console.log(message)
         let overlay = document.createElement('div');
         overlay.classList.add('overlay');
-        overlay.textContent = message;
+        let pMessage = document.createElement('p');
+        pMessage.classList.add('end')
+        pMessage.textContent = message;
+        overlay.appendChild(pMessage);
+        let again = document.createElement('div');
+        again.classList.add('button');
+        again.textContent = 'Do you want to play again?';
+        overlay.appendChild(again);
         divContainer.appendChild(overlay);
+        again.addEventListener('click', _startPopUp)
+    }
+
+    function _startPopUp() {
+        let overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        let pMessage = document.createElement('p');
+        pMessage.classList.add('start')
+        pMessage.textContent = 'Let\'s start a Tic tac toe game!';
+        overlay.appendChild(pMessage);
+        let start = document.createElement('div');
+        start.classList.add('button');
+        start.textContent = 'Start';
+        overlay.appendChild(start);
+        divContainer.appendChild(overlay);
+        start.addEventListener('click', _clearOverlay)
+    }
+
+    function _clearOverlay() {
+        const overlays = document.querySelectorAll('div.overlay')
+        overlays.forEach(popup => {
+            divContainer.removeChild(popup)
+        });
     }
 
     function _createNew () {
@@ -59,7 +89,7 @@ const game = (() => {
         if (!this.textContent) {
             let currentSymbol = _checkCurrentlyPlaying();
 
-            _fillBoard(this.dataset.index, currentSymbol);
+            _fill(this.dataset.index, currentSymbol);
             
             let isWon = _checkVictory(currentSymbol);
             let isTie = _checkTie();
@@ -80,7 +110,7 @@ const game = (() => {
         }
     }
     
-    function _fillBoard (index, symbol) {
+    function _fill (index, symbol) {
         arrayBoard[index] = symbol;
         board.fill(index, symbol);
     }
