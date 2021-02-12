@@ -53,12 +53,25 @@ h1 {
     font-size: 25px;
 }
 
+.end {
+    margin-bottom: 100px;
+}
+
+input {
+    width: 250px;
+    border: 1px solid rgb(214, 178, 178);
+    font-size: 22px;
+    margin: 5px;
+    padding: 0 3px;
+    line-height: 1.8em;
+}
+
 .overlay .button {
     border: 1px solid rgb(131, 122, 105);
     background-color: rgb(214, 178, 178);
     box-sizing: border-box;
     padding: 8px;
-    margin: 150px 0 0 0;
+    margin: 30px 0 0 0;
 }
 
 .overlay .button:hover {

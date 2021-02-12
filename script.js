@@ -2,23 +2,80 @@ const board = (() => {
     const divContainer = document.getElementById('board');
 
     function initiate () {
-        _createNew()
-        _startPopUp()
-    }
-    
-    function reset() {
-        const caseArray = document.querySelectorAll('div.case')
-        caseArray.forEach(singleCase => {
-            divContainer.removeChild(singleCase)
-        });
+        _startPopUp();
         _createNew();
     }
 
     function fill (index, symbol) {
         divContainer.childNodes[index].textContent = symbol;
     }
+    
+    function end(message) {
+        const caseArray = document.querySelectorAll('div.case')
+        caseArray.forEach(singleCase => {
+            divContainer.removeChild(singleCase)
+        });
+        _createNew();
+        _endPopUp(message);
+    }
 
-    function endPopUp(message) {
+    function _letsStart(){
+        _updateName();
+        _clearOverlay()
+    }
+
+    function _updateName() {
+        const updateP1Name = document.getElementById('Player1').value;
+        const updateP2Name = document.getElementById('Player2').value;
+
+        if (updateP1Name) {
+            player1.name = updateP1Name
+        }
+        if (updateP2Name) {
+            player2.name = updateP2Name
+        }
+    }
+
+    function _startPopUp() {
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        const pMessage = document.createElement('p');
+        pMessage.classList.add('start');
+        pMessage.textContent = 'Let\'s start a Tic tac toe game!';
+        overlay.appendChild(pMessage);
+        
+        const player1 = document.createElement('div');
+        const labelP1 = document.createElement('label');
+        labelP1.setAttribute('for', 'Player1');
+        labelP1.textContent = 'Player 1';
+        player1.appendChild(labelP1);
+        const inputP1 = document.createElement('input');
+        inputP1.setAttribute('id', 'Player1');
+        inputP1.setAttribute('type', 'text');
+        player1.appendChild(inputP1);
+        overlay.appendChild(player1);
+        
+        const player2 = document.createElement('div');
+        const labelP2 = document.createElement('label');
+        labelP2.setAttribute('for', 'Player2');
+        labelP2.textContent = 'Player 2';
+        player2.appendChild(labelP2);
+        const inputP2 = document.createElement('input');
+        inputP2.setAttribute('id', 'Player2');
+        inputP2.setAttribute('type', 'text');
+        player2.appendChild(inputP2);
+        overlay.appendChild(player2);
+        
+        const start = document.createElement('div');
+        start.classList.add('button');
+        start.textContent = 'Start';
+        overlay.appendChild(start);
+        divContainer.appendChild(overlay);
+        
+        start.addEventListener('click', _letsStart)
+    }
+    
+    function _endPopUp(message) {
         let overlay = document.createElement('div');
         overlay.classList.add('overlay');
         let pMessage = document.createElement('p');
@@ -30,24 +87,9 @@ const board = (() => {
         again.textContent = 'Do you want to play again?';
         overlay.appendChild(again);
         divContainer.appendChild(overlay);
-        again.addEventListener('click', _startPopUp)
+        again.addEventListener('click', _clearOverlay)
     }
-
-    function _startPopUp() {
-        let overlay = document.createElement('div');
-        overlay.classList.add('overlay');
-        let pMessage = document.createElement('p');
-        pMessage.classList.add('start')
-        pMessage.textContent = 'Let\'s start a Tic tac toe game!';
-        overlay.appendChild(pMessage);
-        let start = document.createElement('div');
-        start.classList.add('button');
-        start.textContent = 'Start';
-        overlay.appendChild(start);
-        divContainer.appendChild(overlay);
-        start.addEventListener('click', _clearOverlay)
-    }
-
+       
     function _clearOverlay() {
         const overlays = document.querySelectorAll('div.overlay')
         overlays.forEach(popup => {
@@ -76,9 +118,8 @@ const board = (() => {
 
     return { 
         initiate,
-        reset,
         fill,
-        endPopUp,
+        end,
     };
 })();
 
@@ -98,16 +139,16 @@ const game = (() => {
                 if (isWon) {
                     let theWinner = _winnerName(currentSymbol);
                     message = `Yeah! ${theWinner} has won`;
-                    isWon = _reset(isWon);
+                    isWon = _reset(isWon, message);
                 } else if (isTie) {
-                    message = 'it\'s a tie!';
-                    isTie = _reset(isTie);
-                }  
-                board.endPopUp(message);          
+                    message = 'It\'s a tie!';
+                    isTie = _reset(isTie, message);
+                }          
             } else if (!isWon && !isTie) {
                 _toggleCurrentPlayer(); 
             }
         }
+
     }
     
     function _fill (index, symbol) {
@@ -157,10 +198,10 @@ const game = (() => {
         }
     }
 
-    function _reset(element) {
+    function _reset(element, message) {
         element = false;
         arrayBoard = Array(9).fill("");
-        board.reset();
+        board.end(message);
         return element
     }
 
@@ -170,6 +211,7 @@ const game = (() => {
 })();
 
 const Player = (name, symbol, currentPlayer) => {
+    
     return {
         name,
         symbol,
@@ -177,7 +219,7 @@ const Player = (name, symbol, currentPlayer) => {
     }
 }
 
+window.onload = board.initiate();
+
 const player1 = Player('Player 1', 'X', true);
 const player2 = Player('Player 2', 'O', false);
-
-window.onload = board.initiate();
