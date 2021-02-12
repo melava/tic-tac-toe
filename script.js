@@ -1,5 +1,6 @@
 const board = (() => {
     const divContainer = document.getElementById('board');
+    const turn = document.getElementById('turn');
 
     function initiate () {
         _startPopUp();
@@ -21,7 +22,7 @@ const board = (() => {
 
     function _letsStart(){
         _updateName();
-        _clearOverlay()
+        _clearOverlay();
     }
 
     function _updateName() {
@@ -95,6 +96,13 @@ const board = (() => {
         overlays.forEach(popup => {
             divContainer.removeChild(popup)
         });
+        _clearTurns();
+    }
+
+    function _clearTurns () {
+        player1.currentPlayer = true;
+        player2.currentPlayer = false;
+        turn.textContent = `It's ${player1.name}'s turn ! ("${player1.symbol}" symbol)`;
     }
 
     function _createNew () {
@@ -116,7 +124,8 @@ const board = (() => {
         }); 
     }
 
-    return { 
+    return {
+        turn,
         initiate,
         fill,
         end,
@@ -162,8 +171,15 @@ const game = (() => {
     }
 
     function _toggleCurrentPlayer () {
-        player1.currentPlayer ? player1.currentPlayer = false : player1.currentPlayer = true;
-        player2.currentPlayer ? player2.currentPlayer = false : player2.currentPlayer = true;
+        if(player1.currentPlayer) {
+            player1.currentPlayer = false;
+            player2.currentPlayer = true;
+            board.turn.textContent = `It's ${player2.name}'s turn ! ("${player2.symbol}" symbol)`;
+        } else {
+            player2.currentPlayer = false;
+            player1.currentPlayer = true;
+            board.turn.textContent = `It's ${player1.name}'s turn ! ("${player1.symbol}" symbol)`;
+        }
     }
 
     function _checkVictory (currentSymbol) {

@@ -6,9 +6,15 @@ h1 {
     text-align: center;
 }
 
+#turn {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 50px;
+}
+
 #board {
     width: 450px;
-    margin: 50px auto;
+    margin: 30px auto;
     display: flex;
     flex-wrap: wrap;
     position: relative;
